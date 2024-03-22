@@ -1,9 +1,9 @@
-*{
+* {
     box-sizing: border-box;
 }
 
 body {
-    background-color: #0095dd;
+    background-color: blue;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,14 +27,14 @@ h1 {
 .btn {
     cursor: pointer;
     border: 0;
-    padding 10px 20px;
-    background: #000000;
+    padding: 10px 20px;
+    background: black;
     color: white;
     border-radius: 5px;
 }
 
 .btn:hover {
-    background: #222222;
+    background: #222222
 }
 
 .btn:active {
@@ -52,5 +52,15 @@ h1 {
     top: 0;
     left: 0;
     background: #333333;
-    color: white;
+    color: #ffffff;
+    min-height: 100vh;
+    width: 400px;
+    padding: 20px;
+    line-height: 1.5;
+    transform: translateX(-400px);
+    transition: transform 1s ease-in-out;
+}
+
+.rules.show {
+    transform: translateX(0);
 }
