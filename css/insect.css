@@ -43,7 +43,7 @@ body {
 
 
 .screen.up {
-    margin-top: -100vh;
+    margin-top: -200vh;
 }
 
 a {
@@ -92,4 +92,18 @@ h1 {
 
 .time {
     position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.score {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.message {
+    line-height: 1.7;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0,5);
 }
