@@ -1,137 +1,135 @@
-* {
-    box-sizing: border-box;
+const wordEl = document.getElementById('word')
+const wrongLettersEl = document.getElementById('wrong-letters')
+const playAgainBtn = document.getElementById('play-button')
+const popup = document.getElementById('popup-container')
+const notification = document.getElementById('notification-container')
+const finalMessage = document.getElementById('final-message')
+const figureParts = document.querySelectorAll('.figure-part')
+
+const word = ['application', 'programming', 'interface', 'wizard']
+
+let selectedIndex = Math.floor(word.length * Math.random())
+let selectedWord = word[selectedIndex]
+
+const correctLetters = []
+const wrongLetters = []
+
+
+
+let continueRunning = true
+
+// Show hidden word
+function displayWord() {
+    wordEl.innerHTML = `
+      ${selectedWord
+        .split('')
+        .map(letter => `
+          <span class="letter">
+            ${correctLetters.includes(letter) ? letter : ''}
+          </span>
+        `).join('')
+    }
+    `
+    const innerWord = wordEl.innerText.replace(/\n/g, '')
+
+    if (innerWord == selectedWord) {
+        finalMessage.innerText = 'Congratulations! You won!'
+        popup.style.display = 'flex'
+        continueRunning = false
+    }
 }
 
-.home{
+// Update the wrong letters
+function updateWrongLettersEl() {
+    //display wrong letters
+    wrongLettersEl.innerHTML = `
+     ${wrongLetters.length > 0 ? '<p>Wrong</p>' : ''}
+     ${wrongLetters.map(letter => `<span>${letter}</span>`)}
+    `
+    //display different parts
+    figureParts.forEach((part, index) => {
+        const errors = wrongLetters.length
 
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    color: white;
-    background-color: purple;
-    text-decoration: none;
-    border-radius: 5px;
-}
-body {
-    background-color: pink;
-    color: #ffffff;
-    font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 80vh;
-    margin: 0;
-    overflow: hidden;
-}
+        if (index < errors) {
+            part.style.display = 'block'
+        } else {
+            part.style.display = 'none'
+        }
+    })
 
-h1 {
-    margin: 20px 0 0;
-}
+    //check if lost
+    if (wrongLetters.length == figureParts.length) {
+        finalMessage.innerText = `Unfortunately you lost! The word was: ${selectedWord}`
+        popup.style.display = 'flex'
+        continueRunning = false
+    }
 
-.game-container {
-    padding: 20px 30px;
-    position: relative;
-    margin: auto;
-    height: 350px;
-    width: 450px;
+
+
+
 }
 
-.wrong-letters-container {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    text-align: right;
+// Show notification
+function showNotification() {
+    notification.classList.add('show')
+
+    setTimeout(() => {
+      notification.classList.remove('show')
+    }, 2000)
 }
 
-.wrong-letters-containers p {
-    margin: 0 0 5px;
-}
+// function endGame() {
+//     if (wrongLetters.length == figureParts.length)
+//     {
+//         wrongLettersEl.innerHTML = `
+//         ${wrongLetters.map(letter => `<span>${letter}</span>`)}
+//     }
+// }
 
-.wrong-letters-container span {
-    font-size: 24px;
-}
+// Keydown letter press
+window.addEventListener('keydown', e => {
 
-.word {
-    display: flex;
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
+ if (continueRunning == true) {
+    if (e.keyCode >= 65 && e.keyCode <= 90) {
+        const letter = e.key
 
-.letter {
-    font-size: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    width: 20px;
-    margin: 0 3px;
-    border-bottom: 3px solid dark pink;
-}
+        if (selectedWord.includes(letter)) {
+            if( !correctLetters.includes(letter)) {
+                correctLetters.push(letter)
 
-.figure-container {
-    fill: transparent;
-    stroke: #ffffff;
-    stroke-width: 4px;
-    stroke-linecap: round;
-}
+                displayWord()
+            }   else {
+                showNotification()
+            }
+        }   else {
+            if (!wrongLetters.includes(letter)) {
+                wrongLetters.push(letter)
 
-.figure-part {
-    display: none;
-}
+                updateWrongLettersEl()
+            } else {
+                showNotification()
+            }
+        }
+    }
+ }
+})
 
-.popup-container {
-    background-color: rgba(0,0,0,0);
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    display: none;
-    align-items: center;
-    justify-content: center;
-}
 
-.popup {
-    background: #70b1fb;
-    border-radius: 5px;
-    box-shadow: 0 15px 10px 3px rgba(0,0,0,0.1);
-    padding: 20px;
-    text-align: center;
-}
+// Restart game and play again
+playAgainBtn.addEventListener('click', () => {
+    correctLetters.length = 0
+    wrongLetters.length = 0
+    selectedIndex = Math.floor(word.length * Math.random())
+    selectedWord = word[selectedIndex]
 
-.popup button {
-    cursor: pointer;
-    background-color: white;
-    color: dark pink;
-    margin-top: 20px;
-    padding: 12px 20px;
-    font-size: 16px;
-}
+    displayWord()
 
-.popup button:active {
-    transform: scale(0.98);
-}
+    updateWrongLettersEl()
 
-.notification-container {
-    background-color: rgba(0,0,0,0.3);
-    padding: 15px 20px;
-    border-radius: 10px 10px 0 0;
-    position: absolute;
-    bottom: -50px;
-    transition: transform 0.3s ease-in-out;
-}
+    popup.style.display = 'none'
 
-.notification-container p {
-    margin: 0;
-}
+    continueRunning = true
+})
 
-.notification-container.show {
-    transform: translate(-50px);
-}
+
+displayWord()
