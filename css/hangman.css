@@ -10,12 +10,12 @@
     padding: 10px 20px;
     font-size: 16px;
     color: white;
-    background-color: purple;
+    background-color: blue;
     text-decoration: none;
     border-radius: 5px;
 }
 body {
-    background-color: pink;
+    background-color: blue;
     color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
@@ -71,7 +71,7 @@ h1 {
     height: 50px;
     width: 20px;
     margin: 0 3px;
-    border-bottom: 3px solid dark pink;
+    border-bottom: 3px solid dark blue;
 }
 
 .figure-container {
@@ -109,7 +109,7 @@ h1 {
 .popup button {
     cursor: pointer;
     background-color: white;
-    color: dark pink;
+    color: dark blue;
     margin-top: 20px;
     padding: 12px 20px;
     font-size: 16px;
